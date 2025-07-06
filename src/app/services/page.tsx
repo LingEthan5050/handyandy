@@ -5,32 +5,32 @@ const services = [
   {
     title: 'Kitchen & Bath Remodeling',
     description: 'From cabinet installation to full renovations, we modernize your space with high-end finishes and practical design.',
-    icon: '🍽️',
+    image: 'image1.jpg',
   },
   {
     title: 'General Handyman Services',
     description: 'No job is too small. We handle everything from drywall repair to door replacements and more.',
-    icon: '🔧',
+    image: 'image2.jpg',
   },
   {
     title: 'Exterior Repairs & Decks',
     description: 'Wood rot repair, pressure washing, siding, gutters, and custom deck builds.',
-    icon: '🏡',
+    image: 'image3.jpg',
   },
   {
     title: 'Painting & Drywall',
     description: 'Interior and exterior painting, drywall patching, and finishing for a smooth, updated look.',
-    icon: '🎨',
+    image: 'image4.jpg',
   },
   {
     title: 'Flooring Installation',
     description: 'Professional installation of hardwood, vinyl, tile, or laminate to match your style.',
-    icon: '🪵',
+    image: 'image5.webp',
   },
   {
     title: 'Real Estate Prep & Inspections',
     description: 'Fast, reliable repair work for realtors and homeowners prepping for sale or closing.',
-    icon: '📋',
+    image: 'image6.jpg',
   },
 ];
 
@@ -44,11 +44,15 @@ export default function ServicesPage() {
             <img src="/handyandylogo.png" alt="HandyAndy Logo" className="h-10 w-auto" />
           </div>
           <div className="hidden md:flex gap-6 text-sm font-medium">
-            {['Home', 'About', 'Services', 'Portfolio', 'Contact'].map((item) => (
-              <Link key={item} href={`/${item.toLowerCase()}`} className="hover:text-[#c65b37] transition">
-                {item}
-              </Link>
-            ))}
+                  {['Home', 'About', 'Services', 'Portfolio', 'Contact'].map((item) => {
+          const route = item === 'Home' ? '/' : `/${item.toLowerCase()}`;
+          return (
+            <Link key={item} href={route} className="hover:text-[#c65b37] transition">
+              {item}
+            </Link>
+          );
+        })}
+
           </div>
           <div className="hidden md:flex items-center gap-4">
             <span className="text-sm">212.666.2888</span>
@@ -72,7 +76,11 @@ export default function ServicesPage() {
               key={idx}
               className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition border border-gray-100"
             >
-              <div className="text-4xl mb-4">{service.icon}</div>
+          <img
+            src={service.image}
+            alt={service.title}
+            className="w-full h-40 object-cover rounded-md mb-4"
+          />
               <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
               <p className="text-gray-600 text-sm">{service.description}</p>
             </div>

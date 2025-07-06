@@ -57,11 +57,15 @@ export default function ContactPage() {
             <img src="/handyandylogo.png" alt="HandyAndy Logo" className="h-10 w-auto" />
           </div>
           <div className="hidden md:flex gap-6 text-sm font-medium">
-            {['Home', 'About', 'Services', 'Portfolio', 'Contact'].map((item) => (
-              <Link key={item} href={`/${item.toLowerCase()}`} className="hover:text-[#c65b37] transition">
+                    {['Home', 'About', 'Services', 'Portfolio', 'Contact'].map((item) => {
+            const route = item === 'Home' ? '/' : `/${item.toLowerCase()}`;
+            return (
+              <Link key={item} href={route} className="hover:text-[#c65b37] transition">
                 {item}
               </Link>
-            ))}
+            );
+          })}
+
           </div>
           <div className="hidden md:flex items-center gap-4">
             <span className="text-sm">212.666.2888</span>
