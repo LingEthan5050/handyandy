@@ -1,103 +1,201 @@
-import Image from "next/image";
+'use client';
+import { useState } from 'react';
+import Link from 'next/link';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/autoplay';
 
-export default function Home() {
+export default function HomePage() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const navLinks = [
+    { name: 'Home', href: '/' },
+    { name: 'About', href: '/about' },
+    { name: 'Services', href: '/services' },
+    { name: 'Portfolio', href: '/portfolio' },
+    { name: 'Contact', href: '/contact' },
+  ];
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+    <main className="min-h-screen bg-[#fefaf7] text-[#222] font-sans">
+      {/* Navbar - now on top */}
+      <nav className="sticky top-0 z-50 bg-white border-b">
+  <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+    {/* Logo */}
+    <div className="flex items-left gap-2 bg-white p-2 rounded shadow-md">
+      <img
+        src="handyandylogo.png"
+        alt="HandyAndy Logo"
+        className="h-25 w-auto"
+      />
     </div>
+          <div className="hidden md:flex gap-6 text-sm font-medium">
+            {navLinks.map((link) => (
+              <Link key={link.name} href={link.href} className="hover:text-[#c65b37] transition">
+                {link.name}
+              </Link>
+            ))}
+          </div>
+
+          <div className="hidden md:flex items-center gap-4">
+            <span className="text-sm">212.666.2888</span>
+            <button className="bg-[#c65b37] text-white px-4 py-2 rounded text-sm font-medium hover:bg-[#b24e2e] transition">
+              GET AN ESTIMATE
+            </button>
+          </div>
+
+          <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden text-2xl">
+            ☰
+          </button>
+        </div>
+
+        {mobileOpen && (
+          <div className="md:hidden px-6 py-4 border-t bg-white">
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                className="block py-2 text-sm font-medium hover:text-[#c65b37]"
+              >
+                {link.name}
+              </Link>
+            ))}
+            <div className="mt-2 text-sm">📞 212.666.2888</div>
+            <button className="mt-2 bg-[#c65b37] text-white px-4 py-2 rounded w-full text-sm font-medium">
+              GET AN ESTIMATE
+            </button>
+          </div>
+        )}
+      </nav>
+
+      {/* Hero Slideshow - now beneath navbar */}
+      <section className="w-full overflow-hidden">
+        <Swiper
+          modules={[Autoplay]}
+          autoplay={{ delay: 5000, disableOnInteraction: false }}
+          loop={true}
+          slidesPerView={1}
+          className="h-[300px] md:h-[500px]"
+        >
+          {[
+            'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
+            'testing1.jpg',
+            'testing3.jpg',
+          ].map((url, idx) => (
+            <SwiperSlide key={idx}>
+              <img
+                src={`${url}?auto=format&fit=crop&w=1400&q=80`}
+                alt={`Slide ${idx + 1}`}
+                className="w-full h-full object-cover"
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </section>
+
+      
+      {/* Hero Section */}
+      <section className="max-w-7xl mx-auto px-6 py-20 flex flex-col items-center md:flex-row md:justify-between gap-12">
+        <div className="w-[260px] h-[260px] overflow-hidden shadow-lg rounded-[20%] rotate-[-3deg]">
+          <img
+            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80"
+            alt="Kitchen left"
+            className="w-full h-full object-cover"
+          />
+        </div>
+
+        <div className="text-center max-w-xl md:text-center">
+          <h1 className="text-4xl font-light leading-snug mb-4">
+            Your one-stop shop for <br /> kitchen remodelling
+          </h1>
+          <p className="text-gray-600 text-base mb-6">
+            We take care of your entire kitchen renovation in New York, managing the entire process
+            & guaranteeing stunning results, every time.
+          </p>
+          <button className="bg-[#c65b37] text-white px-6 py-3 rounded font-medium text-sm hover:bg-[#b24e2e] transition">
+            GET AN ESTIMATE
+          </button>
+        </div>
+
+        <div className="w-[260px] h-[260px] overflow-hidden shadow-lg rounded-[20%] rotate-[3deg]">
+          <img
+            src="https://images.unsplash.com/photo-1588854337118-1c4d5b46fba6?auto=format&fit=crop&w=800&q=80"
+            alt="Kitchen right"
+            className="w-full h-full object-cover"
+          />
+        </div>
+      </section>
+
+      {/* Tagline Section */}
+      <section className="bg-[#fefaf7] py-16 border-t">
+        <div className="max-w-5xl mx-auto text-center px-4">
+          <h2 className="text-2xl md:text-3xl font-light text-gray-800">
+            Our team handles everything, from initial design to the final finishes for your kitchen.
+          </h2>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="bg-white py-20">
+        <div className="max-w-6xl mx-auto px-4 text-center">
+          <h2 className="text-2xl md:text-3xl font-light mb-10">
+            Our customers are raving about us
+          </h2>
+
+          <div className="flex flex-col gap-6 max-w-xl mx-auto">
+            {[
+              {
+                name: 'Sarah J.',
+                quote:
+                  'Absolutely loved our kitchen after the remodel. Team was professional and fast!',
+              },
+              {
+                name: 'Marcus R.',
+                quote: 'Super smooth experience. Very responsive and on time.',
+              },
+              {
+                name: 'Jane/Steve',
+                quote: 'We’d 100% recommend them. Our kitchen is now the best room in the house.',
+              },
+            ].map((review, idx) => (
+              <div
+                key={idx}
+                className="border rounded-lg p-6 shadow-sm text-left bg-white"
+              >
+                <p className="text-sm text-gray-600 mb-2">{review.quote}</p>
+                <p className="text-xs font-medium text-gray-800">— {review.name}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Experience + Video Section */}
+      <section className="bg-[#f1ece7] py-20">
+        <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
+          <div className="md:w-1/2">
+            <h2 className="text-3xl font-light mb-4 leading-snug">
+              MyHome has over 20 years experience <br />
+              designing and renovating kitchens in NYC
+            </h2>
+            <p className="text-gray-700">
+              We’ve been featured in design shows and trusted by thousands of NYC homeowners.
+            </p>
+          </div>
+
+          <div className="md:w-1/2 w-full aspect-video">
+            <iframe
+              className="w-full h-full rounded-md shadow-lg"
+              src="https://www.youtube.com/embed/4E33hwDIkkA"
+              title="Video testimonial"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }
