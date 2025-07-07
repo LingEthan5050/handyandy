@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
+import { motion } from 'framer-motion';
 import 'swiper/css';
 import 'swiper/css/autoplay';
 
@@ -17,19 +18,24 @@ export default function HomePage() {
     { name: 'Contact', href: '/contact' },
   ];
 
+  const fadeUp = {
+    hidden: { opacity: 0, y: 40 },
+    visible: (i = 0) => ({
+      opacity: 1,
+      y: 0,
+      transition: { delay: i * 0.2, duration: 0.6 },
+    }),
+  };
+
   return (
     <main className="min-h-screen bg-[#fefaf7] text-[#222] font-sans">
-      {/* Navbar - now on top */}
+      {/* Navbar */}
       <nav className="sticky top-0 z-50 bg-white border-b">
-  <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-    {/* Logo */}
-    <div className="flex items-left gap-2 bg-white p-2 rounded shadow-md">
-      <img
-        src="handyandylogo.png"
-        alt="HandyAndy Logo"
-        className="h-25 w-auto"
-      />
-    </div>
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+          <div className="flex items-left gap-2 bg-white p-2 rounded shadow-md">
+            <img src="/handyandylogo.png" alt="HandyAndy Logo" className="h-25 w-auto" />
+          </div>
+
           <div className="hidden md:flex gap-6 text-sm font-medium">
             {navLinks.map((link) => (
               <Link key={link.name} href={link.href} className="hover:text-[#c65b37] transition">
@@ -45,19 +51,13 @@ export default function HomePage() {
             </button>
           </div>
 
-          <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden text-2xl">
-            ☰
-          </button>
+          <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden text-2xl">☰</button>
         </div>
 
         {mobileOpen && (
           <div className="md:hidden px-6 py-4 border-t bg-white">
             {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="block py-2 text-sm font-medium hover:text-[#c65b37]"
-              >
+              <Link key={link.name} href={link.href} className="block py-2 text-sm font-medium hover:text-[#c65b37]">
                 {link.name}
               </Link>
             ))}
@@ -69,12 +69,12 @@ export default function HomePage() {
         )}
       </nav>
 
-      {/* Hero Slideshow - now beneath navbar */}
+      {/* Hero Slideshow */}
       <section className="w-full overflow-hidden">
         <Swiper
           modules={[Autoplay]}
           autoplay={{ delay: 5000, disableOnInteraction: false }}
-          loop={true}
+          loop
           slidesPerView={1}
           className="h-[300px] md:h-[500px]"
         >
@@ -94,61 +94,78 @@ export default function HomePage() {
         </Swiper>
       </section>
 
-      
-      {/* Hero Section */}
+      {/* Hero Content Section */}
       <section className="max-w-7xl mx-auto px-6 py-20 flex flex-col items-center md:flex-row md:justify-between gap-12">
-        <div className="w-[260px] h-[260px] overflow-hidden shadow-lg rounded-[20%] rotate-[-3deg]">
-          <img
-            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80"
-            alt="Kitchen left"
-            className="w-full h-full object-cover"
-          />
-        </div>
-
-        <div className="text-center max-w-xl md:text-center">
-          <h1 className="text-4xl font-light leading-snug mb-4">
-            Your one-stop shop for <br /> kitchen remodelling
-          </h1>
-          <p className="text-gray-600 text-base mb-6">
-            We take care of your entire kitchen renovation in New York, managing the entire process
-            & guaranteeing stunning results, every time.
-          </p>
-          <button className="bg-[#c65b37] text-white px-6 py-3 rounded font-medium text-sm hover:bg-[#b24e2e] transition">
-            GET AN ESTIMATE
-          </button>
-        </div>
-
-        <div className="w-[260px] h-[260px] overflow-hidden shadow-lg rounded-[20%] rotate-[3deg]">
-          <img
-            src="https://images.unsplash.com/photo-1588854337118-1c4d5b46fba6?auto=format&fit=crop&w=800&q=80"
-            alt="Kitchen right"
-            className="w-full h-full object-cover"
-          />
-        </div>
+        {[0, 1, 2].map((_, i) => (
+          <motion.div
+            key={i}
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            custom={i}
+            className={`w-[260px] h-[260px] overflow-hidden shadow-lg rounded-[20%] ${i === 1 ? '' : 'rotate-[-3deg]'}`}
+          >
+            {i === 1 ? (
+              <div className="text-center max-w-xl md:text-center p-4">
+                <h1 className="text-4xl font-light leading-snug mb-4">
+                  Your one-stop shop for <br /> kitchen remodelling
+                </h1>
+                <p className="text-gray-600 text-base mb-6">
+                  We take care of your entire kitchen renovation in New York, managing the entire process
+                  & guaranteeing stunning results, every time.
+                </p>
+                <button className="bg-[#c65b37] text-white px-6 py-3 rounded font-medium text-sm hover:bg-[#b24e2e] transition">
+                  GET AN ESTIMATE
+                </button>
+              </div>
+            ) : (
+              <img
+                src={
+                  i === 0
+                    ? 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80'
+                    : 'https://images.unsplash.com/photo-1588854337118-1c4d5b46fba6?auto=format&fit=crop&w=800&q=80'
+                }
+                alt="Kitchen"
+                className="w-full h-full object-cover"
+              />
+            )}
+          </motion.div>
+        ))}
       </section>
 
       {/* Tagline Section */}
-      <section className="bg-[#fefaf7] py-16 border-t">
+      <motion.section
+        className="bg-[#fefaf7] py-16 border-t"
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
         <div className="max-w-5xl mx-auto text-center px-4">
           <h2 className="text-2xl md:text-3xl font-light text-gray-800">
             Our team handles everything, from initial design to the final finishes for your kitchen.
           </h2>
         </div>
-      </section>
+      </motion.section>
 
-      {/* Testimonials Section */}
-      <section className="bg-white py-20">
+      {/* Testimonials */}
+      <motion.section
+        className="bg-white py-20"
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
         <div className="max-w-6xl mx-auto px-4 text-center">
           <h2 className="text-2xl md:text-3xl font-light mb-10">
             Our customers are raving about us
           </h2>
-
           <div className="flex flex-col gap-6 max-w-xl mx-auto">
             {[
               {
                 name: 'Sarah J.',
-                quote:
-                  'Absolutely loved our kitchen after the remodel. Team was professional and fast!',
+                quote: 'Absolutely loved our kitchen after the remodel. Team was professional and fast!',
               },
               {
                 name: 'Marcus R.',
@@ -159,20 +176,31 @@ export default function HomePage() {
                 quote: 'We’d 100% recommend them. Our kitchen is now the best room in the house.',
               },
             ].map((review, idx) => (
-              <div
+              <motion.div
                 key={idx}
                 className="border rounded-lg p-6 shadow-sm text-left bg-white"
+                variants={fadeUp}
+                custom={idx}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
               >
                 <p className="text-sm text-gray-600 mb-2">{review.quote}</p>
                 <p className="text-xs font-medium text-gray-800">— {review.name}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      {/* Experience + Video Section */}
-      <section className="bg-[#f1ece7] py-20">
+      {/* Experience + Video */}
+      <motion.section
+        className="bg-[#f1ece7] py-20"
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
         <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
           <div className="md:w-1/2">
             <h2 className="text-3xl font-light mb-4 leading-snug">
@@ -195,7 +223,7 @@ export default function HomePage() {
             ></iframe>
           </div>
         </div>
-      </section>
+      </motion.section>
     </main>
   );
 }
